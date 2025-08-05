@@ -1,6 +1,13 @@
 #include<stdio.h>
+int sum (int x,int y)
+{
+int z = x+y;
+printf("%d",z);
+}
 int main()
 {
-printf("hello world");
+int a = 3;
+int b = 999;
+sum(a,b);
 return 0;
 }
