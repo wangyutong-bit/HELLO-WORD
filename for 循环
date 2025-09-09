@@ -1,0 +1,10 @@
+int main()
+{
+int i,a;
+a = "I love Github!";
+for(i = 0;i<999;i++)
+{
+printf(a);
+}
+return 0;
+}
