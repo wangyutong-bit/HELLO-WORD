@@ -1,0 +1,67 @@
+#pragma once
+#include<stdio.h>
+#include<stdlib.h>
+#include <assert.h>
+#define N 1000
+//静态顺序表//由于表的大小不确定，小了不够，大了浪费空间
+typedef int SLDataType;//SLDataType就相当于int,可以用SLDataType替换int
+//typedef struct SeqList
+//{
+//	int a[N];
+//	int size;//数组中存了多少个数据
+//}SL;//SeqList的小名
+//动态顺序表
+typedef struct SeqList
+{
+	SLDataType* a;
+	int size;//数组中存了多少个数据
+	int capacity;//数组实际能存数据的空间容量是多大
+}SL;
+//接口函数
+void SeqListPushBack(SL* ps, SLDataType x)//尾插数据
+{
+	if (ps->size == ps->capacity)
+	{
+		int newcapacity = ps->capacity == 0 ? 4 : ps->capacity * 2;
+		SLDataType* tmp = (SLDataType*)realloc(ps->a, newcapacity * sizeof(SLDataType));
+		if (tmp == NULL)
+		{
+			printf("扩容失败\n");
+			exit(-1);
+		}
+	}
+	
+	ps->a[ps->size] = x;
+	ps->size++;
+}
+void SeqListPushFront(SL* ps, SLDataType x)
+{
+	for (int i = ps->size;i > 0; i--)
+	{
+		ps->a[i] = ps->a[i-1];
+	}
+	ps->a[0] = x;
+	ps->size++;
+}
+void SeqListPopBack(SL* ps)//尾删
+{
+	assert(ps->size>0);//粗暴方式结束
+	ps->size--;
+	/*if (ps->size <= 0)
+	{
+		printf("所有数据均已删除\n");
+		exit(-1);
+	}*///较为温柔的方式
+}
+void SeqListInit(SL* ps)
+{
+	ps->size =ps->capacity= 0;
+	ps->a= NULL;
+}
+void SeqListPopFront(SL* ps);
+void SeqListDestory(SL* ps)
+{
+	free(ps->a);
+	ps->a = NULL;
+	ps->size = ps->capacity = 0;
+}
