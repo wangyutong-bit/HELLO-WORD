@@ -1,0 +1,74 @@
+#pragma once
+#include<stdio.h>
+#include<stdlib.h>
+#include <assert.h>
+#define NodeType int
+typedef struct SListNode
+{
+	NodeType data;
+	struct SListNode* next;//加struct是因为在结构体定义完成之前，编译器需要明确知道你在引用哪个类型，而struct SListNode 提供了这种明确的标识
+}SLTNode;
+
+void SListCreateHead(SLTNode* phead)
+{
+	if (phead == NULL) return;
+	phead->data = 0;
+	phead->next = NULL;
+}
+void SListPushBack(SLTNode* phead,NodeType x)
+{
+	assert(phead != NULL);
+	//找到尾节点
+	SLTNode* tail = phead;//不丢失原地址，创建临时地址
+	while (tail->next != NULL)
+	{
+		tail = tail->next;
+	}
+	//链接
+	SLTNode* newnode = (SLTNode*)malloc(sizeof(SLTNode));
+	newnode->data = x;
+	newnode->next = NULL;
+	tail->next = newnode;
+}
+void SListPop(SLTNode* phead, NodeType x)
+{
+    SLTNode* cur = phead;
+    SLTNode* prev = NULL;
+    while (cur != NULL)
+    {
+        if (cur->data == x)
+        {
+            SLTNode* del = cur;
+            if (prev == NULL)
+            {
+                // 删除头节点
+                phead = cur->next;
+                cur = cur->next;
+            }
+            else
+            {
+                prev->next = cur->next;
+                cur = cur->next;
+            }
+            free(del);
+        }
+        else
+        {
+            prev = cur;
+            cur = cur->next;
+        }
+    }
+}
+void SListprint(SLTNode* phead)//打印单链表
+{
+	SLTNode* cur = phead;
+	while (cur != NULL)
+	{
+		printf("%d->",cur->data);
+		if (cur->next == NULL)
+		{
+			printf("NULL");
+		}
+		cur = cur->next;
+	}
+}
