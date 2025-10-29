@@ -1,0 +1,43 @@
+#pragma once
+#include<stdio.h>
+#include<stdlib.h>
+#include <assert.h>
+#define DataType int
+typedef struct node//栈节点
+{
+	DataType data;//栈的最大高度
+	struct node* next;//栈顶指针
+}Node;
+typedef struct {//栈顶指针
+	Node* top;
+} Stack;
+void StackInit(Stack* s)
+{
+	s->top = NULL;
+}
+void StackPush(Node* s, DataType x)//入栈
+{
+	Node* p = (Node*)malloc(sizeof(Node));
+	assert(p != NULL);
+	p->data = x;
+	p->next = s->next;
+	s->next = p;
+}
+void StackPrint(Node* s)//打印栈
+{
+	Node* p = s->next;
+	while (p != NULL)
+	{
+		printf("%d->", p->data);
+		p = p->next;
+	}
+}
+void StackPop(Node* s)//出栈
+{
+	Node* p = s->next;
+	if (p != NULL)
+	{
+		s->next = p->next;
+		free(p);
+	}
+}
